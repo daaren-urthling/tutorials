@@ -10,6 +10,7 @@ namespace Angular_NETCore_EFCore.Models
         public MaBillOfMaterials()
         {
             MaBillOfMaterialsComps = new HashSet<MaBillOfMaterialsComp>();
+            MaBillOfMaterialsRoutings = new HashSet<MaBillOfMaterialsRouting>();
         }
 
         public string Bom { get; set; }
@@ -33,5 +34,6 @@ namespace Angular_NETCore_EFCore.Models
         public Guid Tbguid { get; set; }
 
         public virtual ICollection<MaBillOfMaterialsComp> MaBillOfMaterialsComps { get; set; }
+        public virtual ICollection<MaBillOfMaterialsRouting> MaBillOfMaterialsRoutings { get; set; }
     }
 }

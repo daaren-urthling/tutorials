@@ -19,6 +19,9 @@ namespace Angular_NETCore_EFCore.Models
 
         public virtual DbSet<MaBillOfMaterials> MaBillOfMaterials { get; set; }
         public virtual DbSet<MaBillOfMaterialsComp> MaBillOfMaterialsComps { get; set; }
+        public virtual DbSet<MaBillOfMaterialsRouting> MaBillOfMaterialsRoutings { get; set; }
+        public virtual DbSet<MaItemsFiscalYearData> MaItemsFiscalYearData { get; set; }
+        public virtual DbSet<MaOperation> MaOperations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -323,6 +326,272 @@ namespace Angular_NETCore_EFCore.Models
                     .HasForeignKey(d => d.Bom)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BillOfMate_BillOfMate_00");
+            });
+
+            modelBuilder.Entity<MaBillOfMaterialsRouting>(entity =>
+            {
+                entity.HasKey(e => new { e.Bom, e.RtgStep, e.Alternate, e.AltRtgStep })
+                    .HasName("PK_BillOfMaterialsRouting")
+                    .IsClustered(false);
+
+                entity.ToTable("MA_BillOfMaterialsRouting");
+
+                entity.Property(e => e.Bom)
+                    .HasMaxLength(21)
+                    .IsUnicode(false)
+                    .HasColumnName("BOM");
+
+                entity.Property(e => e.Alternate)
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IsWc)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("IsWC")
+                    .HasDefaultValueSql("('1')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.LineTypeInDn)
+                    .HasColumnName("LineTypeInDN")
+                    .HasDefaultValueSql("((24576000))");
+
+                entity.Property(e => e.NoOfProcessingWorkers).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NoOfSetupWorkers).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(1024)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.Operation)
+                    .HasMaxLength(21)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.ProcessingAttendancePerc).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProcessingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProcessingWorkingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Qty).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QueueTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupAttendancePerc).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupWorkingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SubId).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Supplier)
+                    .HasMaxLength(12)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.Tbcreated)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBCreated")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbcreatedId).HasColumnName("TBCreatedID");
+
+                entity.Property(e => e.Tbmodified)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBModified")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbmodifiedId).HasColumnName("TBModifiedID");
+
+                entity.Property(e => e.TotalTime)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('0')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Wc)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("WC")
+                    .HasDefaultValueSql("('')");
+
+                entity.HasOne(d => d.BomNavigation)
+                    .WithMany(p => p.MaBillOfMaterialsRoutings)
+                    .HasForeignKey(d => d.Bom)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BillOfMate_BillOfMate_01");
+            });
+
+            modelBuilder.Entity<MaItemsFiscalYearData>(entity =>
+            {
+                entity.HasKey(e => new { e.FiscalYear, e.Item })
+                    .HasName("PK_ItemsFiscalYearData")
+                    .IsClustered(false);
+
+                entity.ToTable("MA_ItemsFiscalYearData");
+
+                entity.HasIndex(e => e.ValuationType, "IX_MA_ItemsFiscalYearData");
+
+                entity.Property(e => e.Item)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EvaluateByLot)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('0')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.InventoryValuationCriteria).HasDefaultValueSql("((4259840))");
+
+                entity.Property(e => e.LastLotNo).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NoAbcvaluation)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("NoABCValuation")
+                    .HasDefaultValueSql("('0')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.StandardCost).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Tbcreated)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBCreated")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbcreatedId).HasColumnName("TBCreatedID");
+
+                entity.Property(e => e.Tbmodified)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBModified")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbmodifiedId).HasColumnName("TBModifiedID");
+
+                entity.Property(e => e.ValuationType).HasDefaultValueSql("((11272194))");
+            });
+
+            modelBuilder.Entity<MaOperation>(entity =>
+            {
+                entity.HasKey(e => e.Operation)
+                    .HasName("PK_Operations")
+                    .IsClustered(false);
+
+                entity.ToTable("MA_Operations");
+
+                entity.Property(e => e.Operation)
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AdditionalCost).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.CostsOnQty)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('0')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.CreationDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("('17991231')");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(96)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.HourlyCost).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.IsWc)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("IsWC")
+                    .HasDefaultValueSql("('1')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Item)
+                    .HasMaxLength(21)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.LastModificationDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("('17991231')");
+
+                entity.Property(e => e.NoOfProcessingWorkers).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.NoOfSetupWorkers).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(64)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.OperationDescriptionFile)
+                    .HasMaxLength(64)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.ProcessingAttendancePerc).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProcessingTeam)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.ProcessingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProcessingWorkingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QueueTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupAttendancePerc).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupTeam)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.SetupTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.SetupWorkingTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Tbcreated)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBCreated")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbcreatedId).HasColumnName("TBCreatedID");
+
+                entity.Property(e => e.Tbguid)
+                    .HasColumnName("TBGuid")
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Tbmodified)
+                    .HasColumnType("datetime")
+                    .HasColumnName("TBModified")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TbmodifiedId).HasColumnName("TBModifiedID");
+
+                entity.Property(e => e.TotalTime)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('0')")
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.UnitCost).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Wc)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("WC")
+                    .HasDefaultValueSql("('')");
             });
 
             OnModelCreatingPartial(modelBuilder);
