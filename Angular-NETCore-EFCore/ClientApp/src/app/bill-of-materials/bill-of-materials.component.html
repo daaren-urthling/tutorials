@@ -1,0 +1,12 @@
+<h1 id="tableLabel">Bill of Materials</h1>
+<form>
+    <div class="form-group">
+        <label class="mr-2">BOM code</label >
+        <input type="text" [(ngModel)]="BOMCode" name="BOMCode">
+    </div>
+    <button class="btn btn-primary" (click)="onShowBOM()">Show</button>
+</form>
+<div class="mt-4" *ngIf="bom">
+    <p>BOM Code: <strong>{{ bom.bom }}</strong></p>
+    <p>Description: <strong>{{ bom.description }}</strong></p>
+</div>

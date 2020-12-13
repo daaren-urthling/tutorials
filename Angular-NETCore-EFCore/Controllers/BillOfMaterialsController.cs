@@ -40,7 +40,7 @@ namespace Angular_NETCore_EFCore.Controllers
                 })
                 .Where(s => s.Bom == bom)
                 .ToList();
-            if (bomData == null)
+            if (bomData == null || bomData.Count == 0)
             {
                 return NotFound();
             }
